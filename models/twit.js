@@ -11,17 +11,17 @@ bot.prototype.retweet = function (params) {
     if(err) console.log(err);
     var tweets = reply.statuses;
     var randomTweet = randIndex(tweets);
-    console.log(randomTweet + " is retweeted");
+    console.log(randomTweet,"is not tweeted");
  	if(typeof randomTweet != 'undefined')
 	    self.twit.post('statuses/retweet/:id', { id: randomTweet.id_str },);
   });
-
 };
 
 function randIndex (arr) {
   var max = -1;
   for(i = 0; i < arr.length; i++){
       tweet  = arr[i];
+      console.log(tweet);
       if("retweet_count" in tweet){
           if(tweet.retweet_count > max)
               max = i;
