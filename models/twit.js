@@ -1,7 +1,31 @@
-var twit = require('twit');
-var hashes = require('../lib/hashes');
-var T = new twit(require('../lib/config')); //put the account details over here
+//bot class
+var Twit = require('twit');
 
-var stream = T.stream('statuses/filter', { track: hashes , language: 'en' }) //put the required hashes in hashes.js
+var bot = module.exports = function(config) { 
+  this.twit = new Twit(config);
+};;
 
-module.exports = {"stream":stream, "twitReq" : T};
+bot.prototype.retweet = function (params) {
+  var self = this;  //because this gets changed sometimes
+  this.twit.get('search/tweets', params, function (err, reply) {
+    if(err) console.log(err);
+    var tweets = reply.statuses;
+    var randomTweet = randIndex(tweets);
+    console.log(randomTweet + " is retweeted");
+ 	if(typeof randomTweet != 'undefined')
+	    self.twit.post('statuses/retweet/:id', { id: randomTweet.id_str },);
+  });
+
+};
+
+function randIndex (arr) {
+  var max = -1;
+  for(i = 0; i < arr.length; i++){
+      tweet  = arr[i];
+      if("retweet_count" in tweet){
+          if(tweet.retweet_count > max)
+              max = i;
+      }
+  }
+  return arr[max];
+};

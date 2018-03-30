@@ -1,10 +1,9 @@
-var stream = require("../models/twit").stream;
-var twitReq = require("../models/twit").twitReq;
+var twit = require("../models/twit");
+var searchTerms = require('../lib/searchTerms');
+var config = require('../lib/config'); //put the account details over here
 
-stream.on('tweet', function (tweet) {
-    console.log(tweet);
-});
+bot = new twit(config);
 
-T.get('search/tweets', { q: 'csgo', count: 100 }, function(err, data, response) {
-    
-});
+var searchParams = { q: searchTerms, count: 100 }
+
+bot.retweet(searchParams);
